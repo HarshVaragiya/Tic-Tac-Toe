@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+option go_package = "./tictactoe";
+
+package tictactoe;
+
+// Game Start 
+message StartNewGameRequest {
+    string player = 1;
+    int32 gridSize = 2;
+}
+
+message StartNewGameResponse {
+    string gameId = 1;
+}
+
+
+// Game Joining 
+message JoinGameRequest{
+    string gameId = 1;
+    string player = 2;
+}
+
+message JoinGameResponse {
+    bool joined = 1;
+    string message = 2;
+}
+
+
+
+// Game Moves
+message GameRequest{
+    string gameId =1;
+}
+
+message GameDetails {
+    string gameId = 1;
+    string gameDetailsJson = 2;
+}
+
+message PutMarkerRequest {
+    string gameId = 1;
+    int32 position = 2;
+    string player = 3;
+}
+
+message PutMarkerResponse {
+    bool approved = 1;
+    bool finished = 2;
+    string message = 3;
+}
+
+message WinnerDetails {
+    string gameId = 1;
+    string player = 2;
+    string message = 3;
+}
+
+
+
+service TicTacToeGame {
+    rpc StartNewGame(StartNewGameRequest) returns(StartNewGameResponse){}
+    rpc JoinGame(JoinGameRequest) returns(JoinGameResponse){}
+
+    rpc GetUpdatedGameDetails(GameRequest) returns(GameDetails){}
+    rpc PutMarker(PutMarkerRequest) returns(PutMarkerResponse){}
+    rpc GetWinnerDetails(GameRequest) returns(WinnerDetails){}
+}
